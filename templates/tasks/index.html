@@ -1,0 +1,59 @@
+{% extends "tasks/base.html" %}
+
+{% block body %}
+    <div class="container justify-content-center  my-5">
+    <div class="row my-3 p-3 text-center">
+        <h1 class="display-4 text-center"><a href="{% url 'index' %}" class="text-decoration-none">TODO-LIST</a></h1>
+
+    <form action="{% url 'search' %}" method="get">
+    {% csrf_token %}
+        <div class="input-group w-100">
+            <input type="text" class="form-control" placeholder="Search tasks" name="search" aria-label="Task" aria-describedby="button-addon2">
+        <button class="btn	btn-primary fas fa-search" type="submit" id="button-addon2">Search
+</button>
+        </div>
+    </form>
+
+    </div>
+
+
+<ul style="list-style: none">
+{% for task in tasks %}
+<li>
+     <div class="row  my-3 p-3 rounded shadow">
+
+        <div class="col-md-8 col-lg-10">
+
+            <h1 class="display 5"><strong>{{ task.task }}</strong></h1>
+            <p><small>{{ task.created_at }}</small></p>
+            <p><small>{{ task.modified_at }}</small></p>
+
+
+        </div>
+        <div class="col-md-4 col-lg-2 ">
+            <a href="{% url 'update' task.id %}" class="update-icon btn btn-info">
+                        <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+                <a href="{% url 'delete' task.id %}" class="delete-icon btn btn-danger">
+                        <i class="fa-solid fa-trash"></i>
+                </a>
+
+        </div>
+
+<br>
+
+        {% empty %}
+ <h3>No items found with your search term, or there is no todo added yet.</h3>
+
+        </div>
+</li>
+        {% endfor %}
+</ul>
+
+
+                                    <a href="{% url 'add' %}" class="btn btn-success my-2"><i class="fas fa-plus"></i> Add a new task</a>
+
+    </div>
+
+
+{% endblock %}
